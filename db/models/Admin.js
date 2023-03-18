@@ -1,13 +1,16 @@
 const {mongoose, Schema, Types} = require('mongoose');
 
-
-const Account = new Schema({
-    number: {
-        type: Number,
+const Admin = new Schema({
+    username: {
+        type: String,
         required: true
     },
-    balance: {
-        type: Number,
+    password: {
+        type: String, 
+        required: true
+    },
+    email: {
+        type: String,
         required: true
     },
     createdAt: {
@@ -18,5 +21,4 @@ const Account = new Schema({
 } 
 )
 
-
-module.exports = mongoose.model('Account', Account);
+module.exports = mongoose.model('User', Admin);

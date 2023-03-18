@@ -1,8 +1,8 @@
 require("dotenv").config()
 const express = require('express');
 const mongoose = require('mongoose');
-const path = require('path')
-
+const userRouter = require('./src/routers/user')
+const accountRouter = require('./src/routers/accounts')
 
 const app = express();
 const { MONGO_URI } = process.env
@@ -11,6 +11,8 @@ const { MONGO_URI } = process.env
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
+app.use('/users', userRouter)
+app.use('/accounts', accountRouter)
 
 const connect = async () => {
     try {
