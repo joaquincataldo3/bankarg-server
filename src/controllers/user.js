@@ -21,7 +21,9 @@ const controller = {
             throw new Error('Please complete all the fields')
          }
 
-        const newUser = await User.create({ username, password, email })
+        const hashPassword = bcryptjs.hashSync(password, 10)
+
+        const newUser = await User.create({ username, password: hashPassword, email })
 
         return res.status(201).json(newUser);
 
