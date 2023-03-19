@@ -2,7 +2,10 @@ require("dotenv").config()
 const express = require('express');
 const mongoose = require('mongoose');
 const userRouter = require('./src/routers/user')
-const accountRouter = require('./src/routers/accounts')
+const accountRouter = require('./src/routers/account')
+const adminRouter = require('./src/routers/admin')
+const transactionRouter = require('./src/routers/transaction')
+const errorMiddleware = require('./src/middlewares/errorHandler')
 
 const app = express();
 const { MONGO_URI } = process.env
@@ -10,9 +13,12 @@ const { MONGO_URI } = process.env
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(errorMiddleware)
 
 app.use('/users', userRouter)
 app.use('/accounts', accountRouter)
+app.use('/admins', adminRouter)
+app.use('/transactions', transactionRouter)
 
 const connect = async () => {
     try {

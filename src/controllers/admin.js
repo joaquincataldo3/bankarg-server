@@ -1,6 +1,6 @@
 const controller = {
     getAll: (req, res) => {
-        return res.status(200).json({msg: 'all users'})
+        return res.status(200).json({msg: 'all admins'})
     },
     getOne: (req, res) => {
 
