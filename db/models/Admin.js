@@ -1,4 +1,4 @@
-const {mongoose, Schema, Types} = require('mongoose');
+const {mongoose, Schema} = require('mongoose');
 
 const Admin = new Schema({
     username: {
@@ -21,4 +21,4 @@ const Admin = new Schema({
 } 
 )
 
-module.exports = mongoose.model('User', Admin);
+module.exports = mongoose.model('Admin', Admin);
