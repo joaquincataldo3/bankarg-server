@@ -64,6 +64,7 @@ const controller = {
     }),
     logout: (req, res) => {
         res.clearCookie('user_access_token')
+        return res.status(200).json({ msg: "you've been logged out" })
     },
     updateOne: (req, res) => {
 

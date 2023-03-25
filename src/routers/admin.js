@@ -5,6 +5,7 @@ const { verifyToken, verifyAdmin } = require('../../middlewares/auth')
 
 router.get('/all', verifyToken, verifyAdmin, controller.getAll)
 router.get('/:userId', verifyToken, verifyAdmin, controller.getOne)
+router.get('/logout', controller.logout)
 
 router.post('/login', controller.login)
 router.post('/register', verifyToken, verifyAdmin, controller.register)
