@@ -10,22 +10,22 @@ const controller = {
     getOne: (req, res) => {
 
     },
-    processLogin: asyncHandler(async (req, res) => {
-        const { password, username } = req.body
+    login: asyncHandler(async (req, res) => {
+        const { password, email } = req.body
 
-        if (!username || !password) {
+        if (!password || !email) {
             res.status(400)
             throw new Error('Please complete all the fields')
         }
 
-        const verifyUsername = await Admin.findOne({ username })
+        const verifyEmail = await Admin.findOne({ email })
 
-        if (!verifyUsername) {
+        if (!verifyEmail) {
             res.status(404)
             throw new Error('Invalid credentials')
         }
 
-        const admin = verifyUsername
+        const admin = verifyEmail
 
         const verifyPassword = await bcryptjs.compare(password, admin.password)
 
@@ -36,27 +36,35 @@ const controller = {
 
         const secretKey = process.env.JWT
 
-        const token = jwt.sign({ id: admin._id, isAdmin: true }, secretKey)
+        const tokenAdminInfo = {
+            id: admin._id,
+            isAdmin: true
+        }
 
-        res.cookie('admin_access_token', token, {
+        const token = jwt.sign(tokenAdminInfo, secretKey, {expiresIn: "1h"})
+
+        res.cookie('user_access_token', token, {
             httpOnly: true
         }).status(200).json({ admin }) 
 
     }),
-    processRegister: asyncHandler(async (req, res) => {
-        const { username, password } = req.body
+    register: asyncHandler(async (req, res) => {
+        const { username, password, email } = req.body
 
-        if (!username || !password) {
+        if (!username || !password || !email) {
             res.status(400)
             throw new Error('Please complete all the fields')
         }
 
         const hashPassword = bcryptjs.hashSync(password, 10)
 
-        const newAdmin = await Admin.create({ username, password: hashPassword })
+        const newAdmin = await Admin.create({ username, password: hashPassword. email })
 
         return res.status(201).json(newAdmin);
     }),
+    logout: (req, res) => {
+        res.clearCookie('user_access_token')
+    },
     updateOne: (req, res) => {
 
     },

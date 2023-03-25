@@ -10,7 +10,7 @@ const controller = {
     getOne: (req, res) => {
 
     },
-    processLogin: asyncHandler(async (req, res) => {
+    login: asyncHandler(async (req, res) => {
         const { password, email } = req.body
 
         if (!email || !password) {
@@ -18,14 +18,14 @@ const controller = {
             throw new Error('Please complete all the fields')
         }
 
-        const verifyUsername = await User.findOne({ email })
+        const verifyEmail = await User.findOne({ email })
 
-        if (!verifyUsername) {
+        if (!verifyEmail) {
             res.status(404)
             throw new Error('Invalid credentials')
         }
 
-        const user = verifyUsername
+        const user = verifyEmail
 
         const verifyPassword = await bcryptjs.compare(password, user.password)
 
@@ -36,7 +36,12 @@ const controller = {
 
         const secretKey = process.env.JWT
 
-        const token = jwt.sign({id: user._id, isUser: true}, secretKey)
+        const tokenUserInfo = {
+            id: user._id,
+            isAdmin: false
+        }
+
+        const token = jwt.sign(tokenUserInfo, secretKey, {expiresIn: "1h"})
 
         res.cookie('user_access_token', token, {
             httpOnly: true
@@ -44,7 +49,7 @@ const controller = {
 
 
     }),
-    processRegister: asyncHandler(async (req, res) => {
+    register: asyncHandler(async (req, res) => {
 
         const { username, password, email } = req.body
 
@@ -60,6 +65,9 @@ const controller = {
         return res.status(201).json(newUser);
 
     }),
+    logout: (req, res) => {
+        res.clearCookie('user_access_token')
+    },
     updateOne: (req, res) => {
 
     },
