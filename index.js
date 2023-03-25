@@ -5,7 +5,8 @@ const userRouter = require('./src/routers/user')
 const accountRouter = require('./src/routers/account')
 const adminRouter = require('./src/routers/admin')
 const transactionRouter = require('./src/routers/transaction')
-const errorMiddleware = require('./src/middlewares/errorHandler')
+const errorMiddleware = require('./middlewares/errorHandler')
+const cookieParser = require('cookie-parser')
 
 const app = express();
 const { MONGO_URI } = process.env
@@ -14,6 +15,7 @@ const { MONGO_URI } = process.env
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(errorMiddleware)
+app.use(cookieParser())
 
 app.use('/users', userRouter)
 app.use('/accounts', accountRouter)
