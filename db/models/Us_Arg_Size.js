@@ -1,17 +1,13 @@
 const {mongoose, Schema, Types} = require('mongoose');
 
-
-const Transaction = new Schema({
-    number: {
-        type: Number,
+const Us_Arg_Size = new Schema({
+    us_size: {
+        type: Number,        
         required: true
     },
-    balance: {
+    arg_size: {
         type: Number,
         required: true
-    },
-    user_id: {
-        type: Types.ObjectId, ref: 'User'
     },
     createdAt: {
         type: Date,
@@ -21,5 +17,4 @@ const Transaction = new Schema({
 } 
 )
 
-
-module.exports = mongoose.model('Transaction', Transaction);
+module.exports = mongoose.model('Us_Arg_Size', Us_Arg_Size);

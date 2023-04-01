@@ -1,13 +1,8 @@
 const {mongoose, Schema, Types} = require('mongoose');
 
-
-const Account = new Schema({
-    number: {
-        type: Number,
-        required: true
-    },
-    balance: {
-        type: Number,
+const Brand = new Schema({
+    name: {
+        type: String,
         required: true
     },
     createdAt: {
@@ -18,5 +13,4 @@ const Account = new Schema({
 } 
 )
 
-
-module.exports = mongoose.model('Account', Account);
+module.exports = mongoose.model('Brand', Brand);

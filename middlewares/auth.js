@@ -15,24 +15,15 @@ const verifyToken = (req, res, next) => {
             throw new Error('Token invalid')
         }
         req.user = user
+        console.log(req.user)
         next()
     })
 }
 
-const verifyUser = (req, res, next) => {
-    verifyToken(req, res, () => {
-        if (req.user.id === req.params.id || req.isAdmin) {
-            next()
-        } else {
-            res.status(403)
-            throw new Error('You are not authorized to perform this action')
-        }
-    })
-}
 
 const verifyAdmin = (req, res, next) => {
     verifyToken(req, res, () => {
-        if (!req.isAdmin) {
+        if (!req.user.isAdmin) {
             res.status(403)
             throw new Error('You are not authorized to perform this action')
         }
@@ -42,4 +33,4 @@ const verifyAdmin = (req, res, next) => {
 
 
 
-module.exports = { verifyToken, verifyUser, verifyAdmin }
+module.exports = { verifyToken, verifyAdmin }

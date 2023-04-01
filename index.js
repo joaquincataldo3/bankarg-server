@@ -1,10 +1,10 @@
 require("dotenv").config()
 const express = require('express');
 const mongoose = require('mongoose');
-const userRouter = require('./src/routers/user')
-const accountRouter = require('./src/routers/account')
-const adminRouter = require('./src/routers/admin')
-const transactionRouter = require('./src/routers/transaction')
+const shoesRouter = require('./src/routers/shoes')
+const adminRouter = require('./src/routers/admins')
+const brandsRouter = require('./src/routers/brands')
+const usArgSizesRouter = require('./src/routers/us_arg_sizes')
 const errorMiddleware = require('./middlewares/errorHandler')
 const cookieParser = require('cookie-parser')
 
@@ -17,10 +17,10 @@ app.use(express.json());
 app.use(errorMiddleware)
 app.use(cookieParser())
 
-app.use('/users', userRouter)
-app.use('/accounts', accountRouter)
+app.use('/shoes', shoesRouter)
 app.use('/admins', adminRouter)
-app.use('/transactions', transactionRouter)
+app.use('/brands', brandsRouter)
+app.use('/us-arg-sizes', usArgSizesRouter)
 
 const connect = async () => {
     try {

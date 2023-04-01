@@ -3,13 +3,27 @@ const bcryptjs = require('bcryptjs')
 const asyncHandler = require('express-async-handler')
 const jwt = require('jsonwebtoken')
 
-const controller = {
-    getAll: (req, res) => {
-        return res.status(200).json({ msg: 'all admins' })
-    },
-    getOne: (req, res) => {
+const maxAge = 360
 
-    },
+const controller = {
+    getAll: asyncHandler( async (req, res) => {
+        const admins = await Admin.find()
+        res.status(200).json(admins)
+    }),
+    getOne: asyncHandler( async (req, res) => {
+        const id = req.params.adminId
+        if (!ObjectId.isValid(id)) {
+            return res.status(400).json({
+                msg: 'Admin id invalid'
+            });
+        }
+        const adminToFind = await Admin.findById(id)
+        if (!adminToFind) {
+            return res.status(404).json({ msg: 'Admin not found' })
+        }
+        const admin = adminToFind
+        return res.status(200).json(admin)
+    }),
     login: asyncHandler(async (req, res) => {
         const { password, email } = req.body
 
@@ -36,16 +50,18 @@ const controller = {
 
         const secretKey = process.env.JWT
 
-        const tokenAdminInfo = {
+        /* const tokenAdminInfo = {
             id: admin._id,
             isAdmin: true
-        }
+        } */
 
-        const token = jwt.sign(tokenAdminInfo, secretKey, {expiresIn: "1h"})
+        const token = jwt.sign({...admin, isAdmin: true}, secretKey)
 
         res.cookie('user_access_token', token, {
-            httpOnly: true
-        }).status(200).json({ admin }) 
+            httpOnly: true, maxAge: maxAge * 10000
+        })
+        
+        return res.status(200).json({ admin, token }) 
 
     }),
     register: asyncHandler(async (req, res) => {
@@ -58,13 +74,13 @@ const controller = {
 
         const hashPassword = bcryptjs.hashSync(password, 10)
 
-        const newAdmin = await Admin.create({ username, password: hashPassword. email })
+        const newAdmin = await Admin.create({ username, password: hashPassword, email })
 
         return res.status(201).json(newAdmin);
     }),
     logout: (req, res) => {
-        res.clearCookie('user_access_token')
-        return res.status(200).json({ msg: "you've been logged out" })
+        res.cookie('user_access_token', '', {maxAge: 1})
+        res.status(200).json({ msg: "you've been logged out" })
     },
     updateOne: (req, res) => {
 
