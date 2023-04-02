@@ -29,7 +29,7 @@ const controller = {
             sizes: req.body.sizes,
             inStock: req.body.inStock
         }
-        const shoeToCreate = await Brand.create(shoeInBody)
+        const shoeToCreate = await Shoe.create(shoeInBody)
         const shoe = shoeToCreate
         const shoeImages = req.files
         const imgsToPush = shoeImages.forEach(img => {
