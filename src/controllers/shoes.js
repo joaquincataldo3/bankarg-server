@@ -126,12 +126,20 @@ const controller = {
             }
         }
 
-        const updatedMovie = await Movie.findByIdAndUpdate(movieIdToUpdate, data, { new: true })
+        const shoeUpdated = await Movie.findByIdAndUpdate(shoeId, data, { new: true })
 
-        return res.status(200).json(updatedMovie)
+        return res.status(200).json(shoeUpdated)
     }),
     deleteOne: asyncHandler(async (req, res) => {
+        const shoeId = req.params.id
 
+        if (!ObjectId.isValid(shoeId)) {
+            return res.status(400).json({ msg: 'Shoe ID invalid' })
+        }
+
+        await Shoe.findByIdAndRemove(shoeId)
+
+        return res.status(200).json({ msg: 'Shoe successfully deleted', id: shoeId })
     })
 }
 
