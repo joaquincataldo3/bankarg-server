@@ -1,6 +1,6 @@
 const {mongoose, Schema, Types} = require('mongoose');
 
-const Image = new Schema({
+const Side_Image = new Schema({
     image: {
         type: String,
         required: true
@@ -17,4 +17,4 @@ const Image = new Schema({
 } 
 )
 
-module.exports = mongoose.model('Image', Image);
+module.exports = mongoose.model('Side_Image', Side_Image);

@@ -14,13 +14,13 @@ const { MONGO_URI } = process.env
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(errorMiddleware)
 app.use(cookieParser())
 
 app.use('/shoes', shoesRouter)
 app.use('/admins', adminRouter)
 app.use('/brands', brandsRouter)
 app.use('/us-arg-sizes', usArgSizesRouter)
+app.use(errorMiddleware)
 
 const connect = async () => {
     try {

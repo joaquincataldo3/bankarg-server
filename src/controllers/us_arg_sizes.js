@@ -27,7 +27,7 @@ const controller = {
             us_size: req.body.us_size,
             arg_size: req.body.arg_size
         }
-        const sizeToCreate = await Brand.create(sizeInBody)
+        const sizeToCreate = await Us_Arg_Size.create(sizeInBody)
         const size = sizeToCreate
         return res.status(201).json(size)
     }),

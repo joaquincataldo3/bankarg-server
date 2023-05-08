@@ -6,10 +6,10 @@ const { verifyToken, verifyAdmin } = require('../../middlewares/auth')
 router.get('/all',  controller.getAll)
 router.get('/:sizeId',  controller.getOne)
 
-router.post('/', verifyToken, verifyAdmin, controller.createOne)
+router.post('/', /* verifyToken, verifyAdmin, */ controller.createOne)
 
-router.put('/update', verifyToken, verifyAdmin, controller.updateOne)
+router.put('/update', /* verifyToken, verifyAdmin, */ controller.updateOne)
 
-router.delete('/delete', verifyToken, verifyAdmin, controller.deleteOne)
+router.delete('/delete', /* verifyToken, verifyAdmin, */ controller.deleteOne)
 
 module.exports = router
