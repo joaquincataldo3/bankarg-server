@@ -58,13 +58,13 @@ const controller = {
         const shoeId = req.params.id;
 
         if (!ObjectId.isValid(shoeId)) {
-            return res.status(400).json({ msg: 'Movie ID invalid' })
+            return res.status(400).json({ msg: 'ID zapatilla invalido' })
         }
 
         const findShoe = await Movie.findById(shoeId)
 
         if (!findShoe) {
-            return res.status(404).json({ msg: 'Movie not found' })
+            return res.status(404).json({ msg: 'Zapatilla no encontrada' })
         }
 
         const shoe = findShoe;
@@ -124,6 +124,8 @@ const controller = {
             if(!imageAlreadyExists){
                await Main_Image.create({image: req.body.current_main_image, shoe_id: shoe._id})
             }
+        } else {
+            return res.status(404).json({ msg: 'Tenes que seleccionar una imagen principal' })
         }
 
         const shoeUpdated = await Movie.findByIdAndUpdate(shoeId, data, { new: true })
@@ -134,12 +136,12 @@ const controller = {
         const shoeId = req.params.id
 
         if (!ObjectId.isValid(shoeId)) {
-            return res.status(400).json({ msg: 'Shoe ID invalid' })
+            return res.status(400).json({ msg: 'ID Zapatilla invalido' })
         }
 
         await Shoe.findByIdAndRemove(shoeId)
 
-        return res.status(200).json({ msg: 'Shoe successfully deleted', id: shoeId })
+        return res.status(200).json({ msg: 'Zapatilla removida', id: shoeId })
     })
 }
 

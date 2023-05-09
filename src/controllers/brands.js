@@ -12,28 +12,30 @@ const controller = {
     getOne: asyncHandler(async (req, res) => {
         const id = req.params.brandId
         if (!ObjectId.isValid(id)) {
-            return res.status(400).json({
-                msg: 'Brand id invalid'
-            });
+            res.status(400)
+            throw new Error ('ID de marca invalido')
+            
         }
         const brandToFind = await Brand.findById(id)
         if (!brandToFind) {
-            return res.status(404).json({ msg: 'Brand not found' })
+            res.status(404).json 
+            throw new Error ('Marca no encontrada')
         }
         const brand = brandToFind
-        return res.status(200).json(brand)
+        res.status(200).json(brand)
     }),
     createOne: asyncHandler(async (req, res) => {
         const brandInBody = {
             name: req.body.name
         }
         const brandToCreate = await Brand.create(brandInBody)
-        return res.status(201).json(brandToCreate)
+        res.status(201).json(brandToCreate)
     }),
     updateOne: asyncHandler(async (req, res) => {
         const id = req.params.brandId
         if (!ObjectId.isValid(id)) {
-            return res.status(400).json({ msg: 'Brand ID invalid' })
+           res.status(400)
+           throw new Error ('ID de marca invalido')
         }
         const brandDataToUpdate = {
             name: req.body.name
@@ -46,12 +48,13 @@ const controller = {
         const id = req.params.brandId
 
         if (!ObjectId.isValid(id)) {
-            return res.status(400).json({ msg: 'Brand id invalid' })
+           res.status(400)
+           throw new Error ('ID de marca invalido')
         }
 
         await Movie.findByIdAndRemove(id)
 
-        return res.status(200).json({ msg: 'Movie successfully deleted', id: id })
+        return res.status(200).json(id)
     })
 }
 

@@ -70,7 +70,7 @@ const controller = {
 
         if (!username || !password || !email) {
             res.status(400)
-            throw new Error('Please complete all the fields')
+            throw new Error('Completar todos los campos')
         }
 
         const hashPassword = bcryptjs.hashSync(password, 10)
@@ -84,9 +84,6 @@ const controller = {
         res.status(200).json({ msg: "you've been logged out" })
     },
     updateOne: (req, res) => {
-
-    },
-    deleteOne: (req, res) => {
 
     }
 }

@@ -11,13 +11,14 @@ const controller = {
     getOne: asyncHandler( async(req, res) => {
         const id = req.params.sizeId
         if (!ObjectId.isValid(id)) {
-            return res.status(400).json({
-                msg: 'Size id invalid'
-            });
+           res.status(400).json
+           throw new Error ('ID talle invalido')
+           
         }
         const sizeToFind = await Us_Arg_Size.findById(id)
         if (!sizeToFind) {
-            return res.status(404).json({ msg: 'Brand not found' })
+            res.status(404)
+            throw new Error ('Marca no encontrada')
         }
         const size = sizeToFind
         return res.status(200).json(size)
@@ -46,14 +47,16 @@ const controller = {
         const sizeId = req.query.si
 
         if (!ObjectId.isValid(shoeId) || !ObjectId.isValid(sizeId)) {
-            return res.status(400).json({ msg: 'Shoe or Size ID invalid' })
+            res.status(400)
+            throw new Error ('Zapatilla o Size ID invalido')
         }
 
         const shoeToFind = await Movie.findById(shoeId)
         const sizeToFind = await Actor.findById(sizeId)
 
         if (!sizeToFind || !shoeToFind) {
-            return res.status(404).json({ msg: 'Shoe or Size not found' })
+            res.status(404).json
+            throw new Error ('Zapatilla o Talle no encontrado')
         }
 
         
@@ -75,19 +78,21 @@ const controller = {
         const id = req.params.sizeId
 
         if (!ObjectId.isValid(id)) {
-            return res.status(400).json({ msg: 'Size id invalid' })
+            res.status(400)
+            throw new Error ('ID talle invalido')
         }
 
         const sizetoFind = await Us_Arg_Size.findById(id)
         if (!sizetoFind) {
-            return res.status(404).json({ msg: 'Size not found' })
+            res.status(404)
+            throw new Error ('Talle no encontrado')
         }
 
         const sizeToDelete = sizetoFind
 
         await Movie.findByIdAndRemove(sizeToDelete)
 
-        return res.status(200).json({ msg: 'Size successfully deleted', id: id })
+        return res.status(200).json(id)
     })
 }
 
